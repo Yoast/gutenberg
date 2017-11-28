@@ -14,11 +14,30 @@ import { mobileMiddleware } from './utils/mobile';
 import reducer from './reducer';
 import storePersist from './store-persist';
 import { PREFERENCES_DEFAULTS } from './store-defaults';
+import { getEditedPostContent } from "./selectors";
 
 /**
  * Module constants
  */
 const GUTENBERG_PREFERENCES_KEY = `GUTENBERG_PREFERENCES_${ window.userSettings.uid }`;
+
+let postContent = null;
+
+function setupDataHandlers( store ) {
+	store.subscribe( () => {
+		let state = store.getState();
+
+		let editedPostContent = getEditedPostContent( state );
+
+		if ( postContent !== editedPostContent ) {
+			postContent = editedPostContent;
+
+			wp.data.emit( "post-updated", {
+				content: postContent,
+			} );
+		}
+	} );
+}
 
 /**
  * Creates a new instance of a Redux store.
@@ -43,7 +62,8 @@ function createReduxStore( preloadedState ) {
 
 	const store = createStore( reducer, preloadedState, flowRight( enhancers ) );
 
+	setupDataHandlers( store );
+
 	return store;
 }
-
 export default createReduxStore;
