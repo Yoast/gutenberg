@@ -11,6 +11,7 @@ import './style.scss';
 import ModeSwitcher from '../mode-switcher';
 import FixedToolbarToggle from '../fixed-toolbar-toggle';
 import EditorActions from '../editor-actions';
+import Plugins from '../plugins';
 
 const element = (
 	<Dropdown
@@ -30,7 +31,11 @@ const element = (
 				<div className="editor-ellipsis-menu__separator" />
 				<FixedToolbarToggle onToggle={ onClose } />
 				<div className="editor-ellipsis-menu__separator" />
+<<<<<<< HEAD
 				<EditorActions />
+=======
+				<Plugins onToggle={ onClose } />
+>>>>>>> Add an API to add a plugin sidebar
 			</div>
 		) }
 	/>

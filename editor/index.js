@@ -20,6 +20,7 @@ import { EditorProvider, ErrorBoundary } from './components';
 import { initializeMetaBoxState } from './store/actions';
 
 export * from './components';
+export * from './api';
 import store from './store'; // Registers the state tree
 
 // Configure moment globally
