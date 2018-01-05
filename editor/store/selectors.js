@@ -104,9 +104,17 @@ export function getActivePanel( state ) {
 }
 
 /**
- * Returns the preferences (these preferences are persisted locally).
- *
- * @param {Object} state Global application state.
+ * Returns the current active plugin for the plugin sidebar.
+ * 
+ * @param  {Object}  state Global application state
+ * @return {String}        Active plugin sidebar plugin
+ */
+export function getActivePlugin( state ) {
+	return state.plugin;
+}
+
+/**
+ * Returns the preferences (these preferences are persisted locally)
  *
  * @returns {Object} Preferences Object.
  */
@@ -155,8 +163,8 @@ export function isSidebarOpened( state, sidebar ) {
 export function hasOpenSidebar( state ) {
 	const sidebars = getPreference( state, 'sidebars' );
 	return isMobile( state ) ?
-		sidebars.mobile || sidebars.publish :
-		sidebars.desktop || sidebars.publish;
+		sidebars.mobile || sidebars.publish || sidebars.plugins :
+		sidebars.desktop || sidebars.publish || sidebars.plugins ;
 }
 
 /**

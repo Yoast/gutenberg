@@ -26,6 +26,7 @@ import {
 	UnsavedChangesWarning,
 	EditorNotices,
 	PostPublishPanel,
+	PluginsPanel
 } from '../../components';
 import {
 	getEditorMode,
@@ -41,12 +42,17 @@ function Layout( {
 	isDefaultSidebarOpened,
 	isPublishSidebarOpened,
 	fixedToolbarActive,
-	onClosePublishPanel,
+	isPluginsSidebarOpened,
+	hasFixedToolbar,
+	onToggleSidebar,
 } ) {
 	const className = classnames( 'editor-layout', {
 		'is-sidebar-opened': layoutHasOpenSidebar,
 		'has-fixed-toolbar': fixedToolbarActive,
 	} );
+
+	const closePublishPanel = () => onToggleSidebar( 'publish', false );
+	const closePluginsPanel = () => onToggleSidebar( 'plugins', false );
 
 	return (
 		<div className={ className }>
@@ -69,7 +75,8 @@ function Layout( {
 				</div>
 			</div>
 			{ isDefaultSidebarOpened && <Sidebar /> }
-			{ isPublishSidebarOpened && <PostPublishPanel onClose={ onClosePublishPanel } /> }
+			{ isPublishSidebarOpened && <PostPublishPanel onClose={ closePublishPanel } /> }
+			{ isPluginsSidebarOpened && <PluginsPanel onClose={ closePluginsPanel } /> }
 			<Popover.Slot />
 		</div>
 	);
@@ -81,7 +88,8 @@ export default connect(
 		layoutHasOpenSidebar: hasOpenSidebar( state ),
 		isDefaultSidebarOpened: isSidebarOpened( state ),
 		isPublishSidebarOpened: isSidebarOpened( state, 'publish' ),
-		fixedToolbarActive: hasFixedToolbar( state ),
+		isPluginsSidebarOpened: isSidebarOpened( state, 'plugins' ),
+		hasFixedToolbar: isFeatureActive( state, 'fixedToolbar' ),
 	} ),
 	{
 		onClosePublishPanel: () => toggleSidebar( 'publish', false ),
