@@ -20,15 +20,18 @@ import {
 } from '../../components';
 import EllipsisMenu from './ellipsis-menu';
 import HeaderToolbar from './header-toolbar';
-import { isSidebarOpened } from '../../store/selectors';
-import { toggleSidebar } from '../../store/actions';
-
-function Header( {
-	onToggleDefaultSidebar,
-	onTogglePublishSidebar,
-	isDefaultSidebarOpened,
+import {
+	getOpenedGeneralSidebar,
 	isPublishSidebarOpened,
-} ) {
+} from '../../store/selectors';
+import {
+	openGeneralSidebar,
+	closeGeneralSidebar,
+	togglePublishSidebar
+} from '../../store/actions';
+
+function Header( { isGeneralSidebarOpened, onOpenGeneralSidebar, onCloseGeneralSidebar, onTogglePublishSidebar } ) {
+	const toggleGeneralSidebar = isGeneralSidebarOpened ? onCloseGeneralSidebar : onOpenGeneralSidebar;
 	return (
 		<div
 			role="region"
@@ -47,10 +50,10 @@ function Header( {
 					/>
 					<IconButton
 						icon="admin-generic"
-						onClick={ onToggleDefaultSidebar }
-						isToggled={ isDefaultSidebarOpened }
+						onClick={ toggleGeneralSidebar }
+						isToggled={ isGeneralSidebarOpened }
 						label={ __( 'Settings' ) }
-						aria-expanded={ isDefaultSidebarOpened }
+						aria-expanded={ isGeneralSidebarOpened }
 					/>
 					<EllipsisMenu key="ellipsis-menu" />
 				</div>
@@ -61,11 +64,12 @@ function Header( {
 
 export default connect(
 	( state ) => ( {
-		isDefaultSidebarOpened: isSidebarOpened( state ),
-		isPublishSidebarOpened: isSidebarOpened( state, 'publish' ),
+		isGeneralSidebarOpened: !! getOpenedGeneralSidebar( state ),
+		isPublishSidebarOpened: isPublishSidebarOpened( state ),
 	} ),
 	{
-		onToggleDefaultSidebar: () => toggleSidebar(),
-		onTogglePublishSidebar: () => toggleSidebar( 'publish' ),
-	}
+		onOpenGeneralSidebar: () => openGeneralSidebar( 'editor' ),
+		onCloseGeneralSidebar: closeGeneralSidebar,
+		onTogglePublishSidebar: togglePublishSidebar,
+	},
 )( Header );

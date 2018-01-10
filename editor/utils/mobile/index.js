@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import { isMobile } from '../../store/selectors';
-import { toggleSidebar } from '../../store/actions';
+import { setViewMode } from '../../store/actions';
 
 /**
  * Middleware
@@ -10,7 +10,7 @@ import { toggleSidebar } from '../../store/actions';
 
 export const mobileMiddleware = ( { getState } ) => next => action => {
 	if ( action.type === 'TOGGLE_SIDEBAR' && action.sidebar === undefined ) {
-		return next( toggleSidebar( isMobile( getState() ) ? 'mobile' : 'desktop', action.forcedValue ) );
+		return next( setViewMode( isMobile( getState() ) ? 'mobile' : 'desktop' ) );
 	}
 	return next( action );
 };
