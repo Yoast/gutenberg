@@ -36,7 +36,7 @@ const MAX_FREQUENT_BLOCKS = 3;
  * @returns {string} Editing mode.
  */
 export function getEditorMode( state ) {
-	return getPreference( state, 'mode', 'visual' );
+	return getPreference( state, 'editorMode', 'visual' );
 }
 
 /**
@@ -110,7 +110,7 @@ export function getActivePanel( state ) {
  * @return {String}        Active plugin sidebar plugin
  */
 export function getActivePlugin( state ) {
-	return state.plugin;
+	return getPreference( state, 'activeSidebarPanel', {} ).plugins;
 }
 
 /**

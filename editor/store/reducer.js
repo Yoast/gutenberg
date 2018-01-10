@@ -518,15 +518,30 @@ export function blockInsertionPoint( state = {}, action ) {
  */
 export function preferences( state = PREFERENCES_DEFAULTS, action ) {
 	switch ( action.type ) {
-		case 'TOGGLE_SIDEBAR':
+		case 'OPEN_GENERAL_SIDEBAR':
+			const activeSidebarPanel = action.panel ? action.panel : state.activeSidebarPanel[ action.sidebar ];
 			return {
 				...state,
-				sidebars: {
-					...state.sidebars,
-					[ action.sidebar ]: action.forcedValue !== undefined ? action.forcedValue : ! state.sidebars[ action.sidebar ],
+				activeGeneralSidebar: action.sidebar,
+				activeSidebarPanel: {
+					...state.activeSidebarPanel,
+					[ action.sidebar ]: activeSidebarPanel,
 				},
 			};
-		case 'TOGGLE_SIDEBAR_PANEL':
+		case 'SET_GENERAL_SIDEBAR_ACTIVE_PANEL':
+			return {
+				...state,
+				activeSidebarPanel: {
+					...state.activeSidebarPanel,
+					[ action.sidebar ]: action.panel,
+				},
+			};
+		case 'CLOSE_GENERAL_SIDEBAR':
+			return {
+				...state,
+				activeGeneralSidebar: null,
+			};
+		case 'TOGGLE_GENERAL_SIDEBAR_EDITOR_PANEL':
 			return {
 				...state,
 				panels: {
@@ -594,10 +609,14 @@ export function panel( state = 'document', action ) {
 	return state;
 }
 
-export function plugin( state = 'null', action ) {
-	switch( action.type ) {
-		case 'SET_ACTIVE_PLUGIN':
-			return action.plugin;
+export function publishSidebarActive( state = false, action ) {
+	switch ( action.type ) {
+		case 'OPEN_PUBLISH_SIDEBAR':
+			return true;
+		case 'CLOSE_PUBLISH_SIDEBAR':
+			return false;
+		case 'TOGGLE_PUBLISH_SIDEBAR':
+			return ! state;
 	}
 
 	return state;

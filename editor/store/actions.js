@@ -346,24 +346,7 @@ export function stopTyping() {
 }
 
 /**
- * Returns an action object used in signalling that the user toggled the
- * sidebar.
- *
- * @param  {String} sidebar  Name of the sidebar to toggle (desktop, mobile, plugins or publish)
- * @param  {Boolean?} force  Force a sidebar state
- * @return {Object}          Action object
- */
-export function toggleSidebar( sidebar, forcedValue ) {
-	return {
-		type: 'TOGGLE_SIDEBAR',
-		sidebar,
-		forcedValue,
-	};
-}
-
-/**
- * Returns an action object used in signalling that the user switched the active
- * sidebar tab panel.
+ * Returns an action object used in signalling that the user switched the active sidebar tab panel.
  *
  * @param  {String} sidebar Sidebar name
  * @param  {String} panel   Panel name
@@ -381,7 +364,7 @@ export function setGeneralSidebarActivePanel( sidebar, panel ) {
  * Returns an action object used in signalling that the user opened a sidebar.
  *
  * @param {string} sidebar        Sidebar to open.
- * @param {string} [panel = null] Panel to open in the sidebar.
+ * @param {string} [panel = null] Panel to open in the sidebar. Null if unchanged.
  * @returns {Object}              Action object.
  */
 export function openGeneralSidebar( sidebar, panel = null ) {
