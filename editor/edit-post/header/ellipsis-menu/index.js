@@ -11,7 +11,7 @@ import './style.scss';
 import ModeSwitcher from '../mode-switcher';
 import FixedToolbarToggle from '../fixed-toolbar-toggle';
 import EditorActions from '../editor-actions';
-import Plugins from '../plugins';
+
 
 const element = (
 	<Dropdown
