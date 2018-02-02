@@ -106,3 +106,19 @@ export const query = ( mapSelectorsToProps ) => ( WrappedComponent ) => {
 export const select = ( reducerKey, selectorName, ...args ) => {
 	return selectors[ reducerKey ][ selectorName ]( store.getState()[ reducerKey ], ...args );
 };
+
+/**
+ * Register a listener that listens for changes in the redux store.
+ *
+ * @param {Function} mapSelectorsToProps Gets called with the selectors object
+ *                                       to determine the data for the
+ *                                       component.
+ * @param {Function} callback            Callback function.
+ *
+ * @returns {Function} Unsubscribe function.
+ */
+export const subscribe = ( mapSelectorsToProps, callback ) => {
+	return store.subscribe( () => {
+		callback( mapSelectorsToProps( select ) );
+	} );
+};
