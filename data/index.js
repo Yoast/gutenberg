@@ -8,7 +8,7 @@ import { flowRight } from 'lodash';
 /**
  * Internal dependencies
  */
-import { shallowObjectContentEquals } from "../utils";
+import { shallowObjectContentEquals } from '../utils';
 export { loadAndPersist, withRehydratation } from './persist';
 
 /**
