@@ -8,6 +8,7 @@ import { flowRight } from 'lodash';
 /**
  * Internal dependencies
  */
+import { shallowObjectContentEquals } from "../utils";
 export { loadAndPersist, withRehydratation } from './persist';
 
 /**
@@ -118,7 +119,15 @@ export const select = ( reducerKey, selectorName, ...args ) => {
  * @returns {Function} Unsubscribe function.
  */
 export const subscribe = ( mapSelectorsToProps, callback ) => {
+	let previousMappedState = {};
 	return store.subscribe( () => {
-		callback( mapSelectorsToProps( select ) );
+		const nextMappedState = mapSelectorsToProps( select );
+		/**
+		 * Perform a shallow object compare to prevent unnecessary subscription updates.
+		 */
+		if ( ! shallowObjectContentEquals( nextMappedState, previousMappedState ) ) {
+			previousMappedState = nextMappedState;
+			return callback( nextMappedState );
+		}
 	} );
 };
